@@ -1,13 +1,13 @@
-package com.nsu.whatismem;
+package com.nsu.backend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class WhatismemApplicationTests {
+class BackendApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+    @Test
+    void contextLoads() {
+    }
 
 }
