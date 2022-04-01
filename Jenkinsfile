@@ -36,7 +36,7 @@ pipeline {
                 stage('Login in registry') {
                     steps {
                         withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'password', usernameVariable: 'user')]) {
-                            sh "docker login https://registry.borodun.works -u ${env.user} -p ${env.password}"
+                            sh "docker login -u ${env.user} -p ${env.password}"
                         }
                     }
                 }
