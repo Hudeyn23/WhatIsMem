@@ -1,0 +1,36 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: whatismem-ingress
+  labels: 
+    app: whatismem
+  annotations:
+    cert-manager.io/issuer: gitlab-issuer
+    kubernetes.io/ingress.provider: nginx
+spec:
+  tls:
+  - hosts:
+    - mem.borodun.works
+    secretName: whatismem-tls-secret
+  ingressClassName: gitlab-nginx
+  rules:
+    - host: mem.borodun.works
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: whatismem-frontend-cluster-ip
+                port:
+                  number: 80
+    - host: mem.borodun.works
+      http:
+        paths:
+          - path: /api/v1/
+            pathType: Prefix
+            backend:
+              service:
+                name: whatismem-backend-cluster-ip
+                port:
+                  number: 8080

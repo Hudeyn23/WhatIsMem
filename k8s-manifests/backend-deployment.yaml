@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: whatismem-backend
+  labels:
+    end: whatismem-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      end: whatismem-backend
+  template:
+    metadata:
+      labels:
+        end: whatismem-backend
+    spec:
+      containers:
+      - name: backend
+        image: nomelyanenko/membackend:main
+        ports:
+        - containerPort: 8080

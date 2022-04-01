@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: whatismem-frontend
+  labels:
+    end: whatismem-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      end: whatismem-frontend
+  template:
+    metadata:
+      labels:
+        end: whatismem-frontend
+    spec:
+      containers:
+      - name: frontend
+        image: nomelyanenko/memfrontend:main
+        ports:
+        - containerPort: 80
