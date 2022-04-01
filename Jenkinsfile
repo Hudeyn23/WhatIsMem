@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    tools {
+        jdk 'openjdk-17'
+        nodejs 'nodejs-17.8'
+    }
+
     stages {
         stage('Build') {
             environment {
@@ -8,7 +13,7 @@ pipeline {
             }
             steps {
                 dir('backend') {
-                    sh './mvn clean compile'
+                    sh "${mvn}/bin/mvn clean compile"
                 }
             }
         }
