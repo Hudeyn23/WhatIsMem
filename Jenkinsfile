@@ -3,9 +3,12 @@ pipeline {
 
     stages {
         stage('Build') {
+            environment {
+                mvn = tool 'maven-3.8.5'
+            }
             steps {
-                dir('backend'){
-                sh './mvnw clean compile'
+                dir('backend') {
+                    sh './mvn clean compile'
                 }
             }
         }
