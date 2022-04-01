@@ -1,4 +1,4 @@
-pipeline {
+ipeline {
     agent any
 
     tools {
@@ -7,15 +7,63 @@ pipeline {
     }
 
     stages {
-        stage('Build') {
-            environment {
-                mvn = tool 'maven-3.8.5'
-            }
-            steps {
-                dir('backend') {
-                    sh "${mvn}/bin/mvn clean compile"
+        stage('Build'){
+            parallel {
+                stage('Build backend') {
+                    environment {
+                        mvn = tool 'maven-3.8.5'
+                    }
+
+                    steps {
+                        dir("backend") {
+                            sh "${mvn}/bin/mvn package"
+                        }
+                    }
+                }
+
+                stage('Build frontend') {
+                    steps {
+                        dir("frontend") {
+                            script {
+                                sh "npm install"
+                                sh "npm run build"
+                                sh "ls"
+                            }
+                        }
+                    }
+                }
+
+                stage('Login in registry') {
+                    steps {
+                        withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'password', usernameVariable: 'user')]) {
+                            sh "docker login https://registry.borodun.works -u ${env.user} -p ${env.password}"
+                        }
+                    }
                 }
             }
         }
+
+        stage('Images') {
+            parallel {
+                stage('Build backend image') {
+                    steps {
+                        dir("backend") {
+                            sh "docker build . -t nomelyanenko/membackend:main"
+                        }
+                        sh "docker push nomelyanenko/membackend:main"
+                    }
+                }
+
+                stage('Build frontend image') {
+                    steps {
+                        dir("frontend") {
+                            sh "docker build . -t nomelyanenko/memfrontend:main"
+                        }
+                        sh "docker push nomelyanenko/membfrontend:main"
+                    }
+                }
+            }
+        }
+
     }
 }
