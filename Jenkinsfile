@@ -66,7 +66,7 @@ pipeline {
                     steps {
                         withCredentials([file(credentialsId: 'kubeconfig', variable: 'CONFIG')]) {
                             sh "kubectl set image deployment/whatismem-backend backend=nomelyanenko/membackend:${env.BUILD_NUMBER} --kubeconfig=\"$CONFIG\" -n gitlab "
-                            sh "kubectl set image deployment/whatismem-frontend frontend=nomelyanenko/memfrontend:${env.BUILD_NUMBER}--kubeconfig=\"$CONFIG\" -n gitlab"
+                            sh "kubectl set image deployment/whatismem-frontend frontend=nomelyanenko/memfrontend:${env.BUILD_NUMBER} --kubeconfig=\"$CONFIG\" -n gitlab"
                         }
                     }
                 }
