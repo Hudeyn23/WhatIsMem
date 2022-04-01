@@ -62,7 +62,7 @@ pipeline {
                         sh "docker push nomelyanenko/memfrontend:main"
                     }
                 }
-                tage('Deploy to k8s') {
+                stage('Deploy to k8s') {
                     steps {
                         withCredentials([file(credentialsId: 'kubeconfig', variable: 'CONFIG')]) {
                             sh "kubectl set image deployment/whatismem-backend backend=nomelyanenko/membackend:main —kubeconfig=\\\"$CONFIG\\\" -n gitlab "
