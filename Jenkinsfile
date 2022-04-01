@@ -59,7 +59,7 @@ pipeline {
                         dir("frontend") {
                             sh "docker build . -t nomelyanenko/memfrontend:main"
                         }
-                        sh "docker push nomelyanenko/membfrontend:main"
+                        sh "docker push nomelyanenko/memfrontend:main"
                     }
                 }
             }
