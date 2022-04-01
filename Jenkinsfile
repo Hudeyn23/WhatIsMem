@@ -48,18 +48,18 @@ pipeline {
                 stage('Build backend image') {
                     steps {
                         dir("backend") {
-                            sh "docker build . -t nomelyanenko/membackend:main"
+                            sh "docker build . -t nomelyanenko/membackend:${env.BUILD_NUMBER}"
                         }
-                        sh "docker push nomelyanenko/membackend:main"
+                        sh "docker push nomelyanenko/membackend:${env.BUILD_NUMBER}"
                     }
                 }
 
                 stage('Build frontend image') {
                     steps {
                         dir("frontend") {
-                            sh "docker build . -t nomelyanenko/memfrontend:main"
+                            sh "docker build . -t nomelyanenko/memfrontend:${env.BUILD_NUMBER}"
                         }
-                        sh "docker push nomelyanenko/memfrontend:main"
+                        sh "docker push nomelyanenko/memfrontend:${env.BUILD_NUMBER}"
                     }
                 }
                 stage('Deploy to k8s') {
