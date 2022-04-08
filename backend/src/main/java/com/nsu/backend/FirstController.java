@@ -2,6 +2,7 @@ package com.nsu.backend;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -25,16 +26,16 @@ public class FirstController {
 
     @GetMapping("/create")
     public String create(@RequestParam(name="players") String playersCount) {
-        Integer players;
+        int players;
         try {
             players = Integer.parseInt(playersCount); // throws exception if 'players' is not int
-            if (players < 1 || players > 20)) {
+            if (players < 1 || players > 20) {
                 throw new Exception("Number of players must be from 1 to 20. Nikita ne rugaisya");
             }
         } catch (Exception e) {
             return "Incorrect players count message";
         }
         var newRoom = new Room(players);
-        return "redirect:/play/" + newRoom.getID.toString();
+        return "redirect:/play/" + newRoom.getID().toString();
     }
 }

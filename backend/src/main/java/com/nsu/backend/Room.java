@@ -1,13 +1,13 @@
 package com.nsu.backend;
 
 public class Room {
-    private static LastID = 1;
+    private static Integer lastID = 1;
     private Integer ID;
     private Integer players;
 
     public Room(Integer players) {
         this.players=players;
-        ID = LastID++;
+        ID = lastID++;
     }
 
     public Integer getID() {
