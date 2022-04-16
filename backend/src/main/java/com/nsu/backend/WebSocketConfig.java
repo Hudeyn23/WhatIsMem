@@ -18,7 +18,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        System.out.println("kavo");
-        registry.addEndpoint("/ws").setAllowedOriginPatterns("*").withSockJS();
+        registry.addEndpoint("/api/v1/ws").setAllowedOriginPatterns("*").withSockJS();
+        registry.addEndpoint("/api/v1/ws").setAllowedOriginPatterns("*");
     }
 }
