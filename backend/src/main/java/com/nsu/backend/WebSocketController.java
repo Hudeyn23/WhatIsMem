@@ -5,7 +5,9 @@ import Messages.CreateMessage;
 import Messages.GameWaitMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.*;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.annotation.SendToUser;
+import org.springframework.messaging.support.MessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -23,11 +25,18 @@ public class WebSocketController {
 
     @MessageMapping("/room/{roomId}")
     @SendTo("/topic/room/{roomId}")
-    public GameWaitMessage joinRoom(@Payload ConnectMessage connectMessage, @DestinationVariable int roomId) {
+    public GameWaitMessage joinRoom(@Payload ConnectMessage connectMessage, @DestinationVariable String roomId, SimpMessageHeaderAccessor headerAccessor) {
         Room room = roomService.getRoom(roomId);
-        Player player = new Player(room.getNextPlayerId(), connectMessage.getPlayerName());
-        room.addPlayer(player);
-        return new GameWaitMessage(room.getPlayersCount(), Action.PLAYERJOIN);
+        if (room != null) {
+            headerAccessor.getSessionAttributes().put("playerName", connectMessage.getPlayerName());
+            headerAccessor.getSessionAttributes().put("room", room);
+            Player player = new Player(room.getNextPlayerId(), connectMessage.getPlayerName());
+            headerAccessor.getSessionAttributes().put("player", player);
+            room.addPlayer(player);
+            return new GameWaitMessage(room.getPlayersCount(), Action.PLAYERJOIN);
+        } else {
+            return null;
+        }
     }
 
     @MessageExceptionHandler

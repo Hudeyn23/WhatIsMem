@@ -2,7 +2,7 @@ package Messages;
 
 public class CreateMessage {
     private int numberOfPlayer;
-    private int roomId;
+    private String roomId;
     public CreateMessage() {
     }
 
@@ -10,16 +10,16 @@ public class CreateMessage {
         this.numberOfPlayer = numberOfPlayer;
     }
 
-    public CreateMessage(int numberOfPlayer, int roomId) {
+    public CreateMessage(int numberOfPlayer, String roomId) {
         this.numberOfPlayer = numberOfPlayer;
         this.roomId = roomId;
     }
 
-    public int getRoomId() {
+    public String getRoomId() {
         return roomId;
     }
 
-    public void setRoomId(int roomId) {
+    public void setRoomId(String roomId) {
         this.roomId = roomId;
     }
 

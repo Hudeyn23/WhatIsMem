@@ -39,6 +39,6 @@ public class FirstController {
             return "Incorrect players count message";
         }
         var newRoom = roomService.createRoom(players);
-        return "redirect:/play/" + Integer.toString(newRoom.getID());
+        return "redirect:/play/" + newRoom.getID();
     }
 }
