@@ -4,21 +4,21 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Room {
-    private int id;
+    private String id;
     private int maxPlayers;
     private ConcurrentLinkedQueue<Player> players = new ConcurrentLinkedQueue<>();
     private AtomicInteger playerId = new AtomicInteger(0);
 
-    public Room(int id, int maxplayersCount) {
+    public Room(String id, int maxplayersCount) {
         this.id = id;
         this.maxPlayers = maxplayersCount;
     }
 
-    public int getID() {
+    public String  getID() {
         return id;
     }
 
-    public void setID(int id) {
+    public void setID(String id) {
         this.id = id;
     }
 
@@ -40,5 +40,9 @@ public class Room {
 
     public void addPlayer(Player player) {
         players.add(player);
+    }
+
+    public void removePlayer(Player player) {
+        players.remove(player);
     }
 }
