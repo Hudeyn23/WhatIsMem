@@ -4,11 +4,11 @@ import SockJS from 'sockjs-client'
 import Name from './elements/Name'
 import Join from './elements/Join'
 import Create from './elements/Create'
-import Modal from "./Modal/Modal"
 
 let stompClient = null
 let number = -1
 let gameCode = -1
+let playerCounter = 1
 
 const connect = ()=>{
     let Sock = new SockJS('https://mem.borodun.works/api/v1/ws')
@@ -21,10 +21,6 @@ const onConnected = () => {
         numberOfPlayer: number,
         roomId: gameCode
     };
-    /*let chatMessage2 = {
-        currentPlayerNumber: 2,
-        Action:"PLAYERJOIN"
-    };*/
     if (gameCode === -1) {
         stompClient.subscribe('/user/queue/create', onMessageReceived)
         stompClient.send("/app/create", {}, JSON.stringify(chatMessage))
@@ -35,18 +31,26 @@ const onConnected = () => {
 
 
 const onMessageReceived = (payload)=>{
+
     let payloadData = JSON.parse(payload.body)
     console.log(payloadData)
     let chatMessage = {
-        numberOfPlayer: payloadData.numberOfPlayer,
+        playerName: "abob",
         roomId: payloadData.roomId
     };
+    gameCode = chatMessage.roomId
+
     let chatMessage2 = {
         currentPlayerNumber: 2,
         Action:"PLAYERJOIN"
     };
-    stompClient.subscribe('/topic/room/' + chatMessage.roomId.toString(), onMessageReceived)
-    stompClient.send("/app/room/" + chatMessage.roomId.toString(), {}, JSON.stringify(chatMessage2))
+    stompClient.subscribe('/topic/room/' + chatMessage.roomId.toString(), onWaitMessageReceived())
+    stompClient.send("/app/room/" + chatMessage.roomId.toString(), {}, JSON.stringify(chatMessage))
+}
+
+const onWaitMessageReceived = (payload)=>{
+    let payloadData = JSON.parse(payload.body)
+    console.log(payloadData)
 }
 
 const onError = (err) => {
@@ -57,6 +61,7 @@ const createRoom=(numberOfPlayer)=>{
     console.log("Creating room")
     number = numberOfPlayer
     connect()
+
 }
 
 const joinRoom=(roomId)=>{
@@ -75,28 +80,14 @@ const styles = {
 }
 
 function App() {
-
-    const [modalCreateActive, setModalCreateActive] = React.useState(false)
-    const [modalJoinActive, setModalJoinActive] = React.useState(false)
-    const [name, setName] = React.useState('anonim')
-    //const [number, setNumber] = React.useState('')
-
-    function changeName(newName) {
-        setName(newName)
-    }
+    const [name, setName] = React.useState('anonim' + playerCounter.toString())
 
     return (
         <div className="main">
             <p style={styles.name}>Nastolka</p>
-            <Name onChange={changeName}/>
-            <Join onJoin={joinRoom} setModalActive={setModalJoinActive} name={name}/>
-            <Create onConnect={createRoom} setModalActive={setModalCreateActive} name={name}/>
-            <Modal active={modalCreateActive} setActive={setModalCreateActive}>
-                <p>Число игроков должно быть от 2 до 10!</p>
-            </Modal>
-            <Modal active={modalJoinActive} setActive={setModalJoinActive}>
-                <p>Код может состоять только из цифр!</p>
-            </Modal>
+            <Name setName={setName}/>
+            <Join onJoin={joinRoom} name={name}/>
+            <Create onConnect={createRoom} name={name}/>
         </div>
     )
 }
