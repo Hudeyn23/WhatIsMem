@@ -40,10 +40,10 @@ const onMessageReceived = (payload)=>{
     };
     gameCode = chatMessage.roomId
 
-    let chatMessage2 = {
+/*    let chatMessage2 = {
         currentPlayerNumber: 2,
         Action:"PLAYERJOIN"
-    };
+    };*/
     stompClient.subscribe('/topic/room/' + chatMessage.roomId.toString(), onWaitMessageReceived())
     stompClient.send("/app/room/" + chatMessage.roomId.toString(), {}, JSON.stringify(chatMessage))
 }
