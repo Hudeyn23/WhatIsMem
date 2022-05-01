@@ -1,95 +1,25 @@
-import React from 'react'
-import {over} from 'stompjs'
-import SockJS from 'sockjs-client'
-import Name from './elements/Name'
-import Join from './elements/Join'
-import Create from './elements/Create'
-
-let stompClient = null
-let number = -1
-let gameCode = -1
-let playerCounter = 1
-
-const connect = ()=>{
-    let Sock = new SockJS('https://mem.borodun.works/api/v1/ws')
-    stompClient = over(Sock)
-    stompClient.connect({},onConnected, onError)
-}
-
-const onConnected = () => {
-    let chatMessage = {
-        numberOfPlayer: number,
-        roomId: gameCode
-    };
-    if (gameCode === -1) {
-        stompClient.subscribe('/user/queue/create', onMessageReceived)
-        stompClient.send("/app/create", {}, JSON.stringify(chatMessage))
-    } else {
-        stompClient.subscribe('/topic/room/' + chatMessage.roomId.toString(), onMessageReceived)
-    }
-}
-
-
-const onMessageReceived = (payload)=>{
-
-    let payloadData = JSON.parse(payload.body)
-    console.log(payloadData)
-    let chatMessage = {
-        playerName: "abob",
-        roomId: payloadData.roomId
-    };
-    gameCode = chatMessage.roomId
-
-    let chatMessage2 = {
-        currentPlayerNumber: 2,
-        Action:"PLAYERJOIN"
-    };
-    stompClient.subscribe('/topic/room/' + chatMessage.roomId.toString(), onWaitMessageReceived())
-    stompClient.send("/app/room/" + chatMessage.roomId.toString(), {}, JSON.stringify(chatMessage))
-}
-
-const onWaitMessageReceived = (payload)=>{
-    let payloadData = JSON.parse(payload.body)
-    console.log(payloadData)
-}
-
-const onError = (err) => {
-    console.log(err)
-}
-
-const createRoom=(numberOfPlayer)=>{
-    console.log("Creating room")
-    number = numberOfPlayer
-    connect()
-
-}
-
-const joinRoom=(roomId)=>{
-    console.log("Joining room")
-    gameCode=(roomId)
-    connect()
-}
-
-const styles = {
-    name: {
-        textAlign: 'center',
-        fontSize: '2em',
-        fontWeight: 'bold',
-        marginBottom: 'auto'
-    }
-}
+import React from "react"
+import {BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './pages/home/Home'
+import Game from './pages/wait/Game'
+import Game2 from './pages/game2/Game2'
+import Layout from './Layout'
 
 function App() {
-    const [name, setName] = React.useState('anonim' + playerCounter.toString())
-
     return (
-        <div className="main">
-            <p style={styles.name}>Nastolka</p>
-            <Name setName={setName}/>
-            <Join onJoin={joinRoom} name={name}/>
-            <Create onConnect={createRoom} name={name}/>
-        </div>
+        <>
+            <Router>
+                <Routes>
+                    <Route path="/" element={<Layout/>}>
+                        <Route index element={<Home/>}/>
+                        <Route path="game" element={<Game/>}/>
+                        <Route path="game/:id" element={<Game2/>}/>
+                    </Route>
+                </Routes>
+            </Router>
+        </>
     )
 }
+export default App
 
-export default App;
+
