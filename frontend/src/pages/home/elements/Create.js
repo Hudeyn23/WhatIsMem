@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import PropTypes from 'prop-types'
+import { useNavigate } from "react-router-dom";
 import Modal from "../Modal/Modal"
 
 const styles = {
@@ -30,6 +31,7 @@ function useInputValue(defaultValue = '') {
 
 function Create(props) {
     const input = useInputValue()
+    const navigate = useNavigate()
 
     const [modalCreateActive, setModalCreateActive] = React.useState(false)
     const [error, setError] = React.useState('')
@@ -39,7 +41,7 @@ function Create(props) {
 
         let number = Number.parseInt(input.value().trim())
         if (number >= 2 && number <= 10) {
-            props.onConnect(number)
+            navigate('/game', {replace: true, state: {name: props.name, numberOfPlayers: number, code: -1}})
         } else {
             setError('Число игроков должно быть от 2 до 10!')
         }
@@ -56,7 +58,7 @@ function Create(props) {
                     <input {...input.bind} /><br/>
                     <button className='button' type='submit'>create</button>
                     &nbsp;&nbsp;
-                    <button className='button' onClick={() => setModalCreateActive(false)}>cancel</button>
+                    <button className='button' onClick={() => setModalCreateActive(false)}>cancel</button> {/*Почему-то при нажатии отправляет код*/}
                 </form>
             </Modal>
         </div>)
@@ -64,8 +66,7 @@ function Create(props) {
 }
 
 Create.propTypes = {
-    onConnect: PropTypes.func.isRequired,
-    name: PropTypes.string,
+    name: PropTypes.string.isRequired
 }
 
 export default Create
