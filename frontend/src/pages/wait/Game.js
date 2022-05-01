@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {useLocation, useNavigate} from 'react-router-dom'
 import SockJS from 'sockjs-client'
 import {over} from "stompjs";
