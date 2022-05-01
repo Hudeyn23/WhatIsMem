@@ -4,6 +4,7 @@ public class ClientChangeUsernameMessage extends ClientMessage {
     private String newUsername;
 
     public ClientChangeUsernameMessage(String newUsername) {
+        super(ClientMessageType.ChangeUserName);
         this.newUsername = newUsername;
     }
 

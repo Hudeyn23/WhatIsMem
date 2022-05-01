@@ -1,7 +1,7 @@
 package com.nsu.backend;
 
-import Messages.ConnectMessage;
-import Messages.CreateMessage;
+import Messages.Client.ClientConnectMessage;
+import Messages.Client.ClientCreateMessage;
 import Messages.Server.ServerWaitMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.*;
@@ -17,18 +17,18 @@ public class WebSocketController {
 
     @MessageMapping("/create")
     @SendToUser("/queue/create")
-    public CreateMessage createRoom(@Payload CreateMessage createMessage) {
-        return new CreateMessage(createMessage.getNumberOfPlayer(), roomService.createRoom(createMessage.getNumberOfPlayer()).getID());
+    public ClientCreateMessage createRoom(@Payload ClientCreateMessage clientCreateMessage) {
+        return new ClientCreateMessage(clientCreateMessage.getNumberOfPlayers(), roomService.createRoom(clientCreateMessage.getNumberOfPlayers()).getID());
     }
 
     @MessageMapping("/room/{roomId}")
     @SendTo("/topic/room/{roomId}")
-    public ServerWaitMessage joinRoom(@Payload ConnectMessage connectMessage, @DestinationVariable String roomId, SimpMessageHeaderAccessor headerAccessor) {
+    public ServerWaitMessage joinRoom(@Payload ClientConnectMessage clientConnectMessage, @DestinationVariable String roomId, SimpMessageHeaderAccessor headerAccessor) {
         Room room = roomService.getRoom(roomId);
         if (room != null) {
-            headerAccessor.getSessionAttributes().put("playerName", connectMessage.getPlayerName());
+            headerAccessor.getSessionAttributes().put("playerName", clientConnectMessage.getUsername());
             headerAccessor.getSessionAttributes().put("room", room);
-            Player player = new Player(room.getNextPlayerId(), connectMessage.getPlayerName());
+            Player player = new Player(room.getNextPlayerId(), clientConnectMessage.getUsername());
             headerAccessor.getSessionAttributes().put("player", player);
             room.addPlayer(player);
             return new ServerWaitMessage(room.getPlayersCount(), room.getMaxPlayers(), Action.PLAYERJOIN);

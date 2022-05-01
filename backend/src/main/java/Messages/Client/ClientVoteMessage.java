@@ -4,6 +4,7 @@ public class ClientVoteMessage extends ClientMessage {
     private int card;
 
     public ClientVoteMessage(int card) {
+        super(ClientMessageType.Vote);
         this.card = card;
     }
 

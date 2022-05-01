@@ -17,4 +17,5 @@ public class ClientMessage {
     public void setType(ClientMessageType type) {
         this.type = type;
     }
+
 }

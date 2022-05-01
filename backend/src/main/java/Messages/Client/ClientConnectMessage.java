@@ -4,6 +4,7 @@ public class ClientConnectMessage extends ClientMessage {
     private String username;
 
     public ClientConnectMessage(String username) {
+        super(ClientMessageType.Connect);
         this.username = username;
     }
 
