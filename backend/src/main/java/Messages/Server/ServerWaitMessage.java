@@ -1,17 +1,20 @@
-package Messages;
+package Messages.Server;
 
 import com.nsu.backend.Action;
 
-public class GameWaitMessage {
+public class ServerWaitMessage extends ServerMessage {
     private int currentPlayerNumber;
+    private int maxPlayerNumber;
     private Action action;
 
-    public GameWaitMessage(int currentPlayerNumber, Action action) {
+    public ServerWaitMessage(int currentPlayerNumber, int maxPlayerNumber, Action action) {
+        super(ServerMessageType.Wait);
         this.currentPlayerNumber = currentPlayerNumber;
         this.action = action;
+        this.maxPlayerNumber = maxPlayerNumber;
     }
 
-    public GameWaitMessage() {
+    public ServerWaitMessage() {
     }
 
     public int getCurrentPlayerNumber() {
@@ -28,6 +31,14 @@ public class GameWaitMessage {
 
     public void setAction(Action action) {
         this.action = action;
+    }
+
+    public int getMaxPlayerNumber() {
+        return maxPlayerNumber;
+    }
+
+    public void setMaxPlayerNumber(int maxPlayerNumber) {
+        this.maxPlayerNumber = maxPlayerNumber;
     }
 }
 

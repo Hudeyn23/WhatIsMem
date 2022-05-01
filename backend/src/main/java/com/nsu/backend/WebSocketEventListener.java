@@ -1,6 +1,6 @@
 package com.nsu.backend;
 
-import Messages.GameWaitMessage;
+import Messages.Server.ServerWaitMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class WebSocketEventListener {
             logger.info("User Disconnected: " + username);
             Player player = (Player) headerAccessor.getSessionAttributes().get("player");
             room.removePlayer(player);
-            GameWaitMessage message = new GameWaitMessage();
+            ServerWaitMessage message = new ServerWaitMessage();
             message.setAction(Action.PLAYERDISCONNECTED);
             message.setCurrentPlayerNumber(room.getPlayersCount());
             messagingTemplate.convertAndSend(String.format("/topic/room/%s", roomId), message);
