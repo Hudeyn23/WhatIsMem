@@ -33,6 +33,9 @@ public class WebSocketController {
             Player player = new Player(room.getNextPlayerId(), connectMessage.getPlayerName());
             headerAccessor.getSessionAttributes().put("player", player);
             room.addPlayer(player);
+            if(room.getPlayersCount() == room.getMaxPlayers()){
+                return new GameWaitMessage(room.getPlayersCount(),Action.GAMESTART);
+            }
             return new GameWaitMessage(room.getPlayersCount(), Action.PLAYERJOIN);
         } else {
             return null;
