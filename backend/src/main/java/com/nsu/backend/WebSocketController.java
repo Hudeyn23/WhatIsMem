@@ -2,6 +2,7 @@ package com.nsu.backend;
 
 import Messages.Client.ClientConnectMessage;
 import Messages.Client.ClientCreateMessage;
+import Messages.Server.ServerRoomCreatedMessage;
 import Messages.Server.ServerWaitMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.*;
@@ -17,8 +18,8 @@ public class WebSocketController {
 
     @MessageMapping("/create")
     @SendToUser("/queue/create")
-    public ClientCreateMessage createRoom(@Payload ClientCreateMessage clientCreateMessage) {
-        return new ClientCreateMessage(clientCreateMessage.getNumberOfPlayers(), roomService.createRoom(clientCreateMessage.getNumberOfPlayers()).getID());
+    public ServerRoomCreatedMessage createRoom(@Payload ClientCreateMessage clientCreateMessage) {
+        return new ServerRoomCreatedMessage(clientCreateMessage.getNumberOfPlayers(), roomService.createRoom(clientCreateMessage.getNumberOfPlayers()).getID());
     }
 
     @MessageMapping("/room/{roomId}")

@@ -3,26 +3,26 @@ package Messages.Server;
 import com.nsu.backend.Action;
 
 public class ServerWaitMessage extends ServerMessage {
-    private int currentPlayerNumber;
-    private int maxPlayerNumber;
+    private int current;
+    private int max;
     private Action action;
 
-    public ServerWaitMessage(int currentPlayerNumber, int maxPlayerNumber, Action action) {
+    public ServerWaitMessage(int current, int max, Action action) {
         super(ServerMessageType.Wait);
-        this.currentPlayerNumber = currentPlayerNumber;
+        this.current = current;
         this.action = action;
-        this.maxPlayerNumber = maxPlayerNumber;
+        this.max = max;
     }
 
     public ServerWaitMessage() {
     }
 
-    public int getCurrentPlayerNumber() {
-        return currentPlayerNumber;
+    public int getCurrent() {
+        return current;
     }
 
-    public void setCurrentPlayerNumber(int currentPlayerNumber) {
-        this.currentPlayerNumber = currentPlayerNumber;
+    public void setCurrent(int current) {
+        this.current = current;
     }
 
     public Action getAction() {
@@ -33,12 +33,12 @@ public class ServerWaitMessage extends ServerMessage {
         this.action = action;
     }
 
-    public int getMaxPlayerNumber() {
-        return maxPlayerNumber;
+    public int getMax() {
+        return max;
     }
 
-    public void setMaxPlayerNumber(int maxPlayerNumber) {
-        this.maxPlayerNumber = maxPlayerNumber;
+    public void setMax(int max) {
+        this.max = max;
     }
 }
 

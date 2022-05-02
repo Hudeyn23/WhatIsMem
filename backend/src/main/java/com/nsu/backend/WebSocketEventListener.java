@@ -28,7 +28,7 @@ public class WebSocketEventListener {
             room.removePlayer(player);
             ServerWaitMessage message = new ServerWaitMessage();
             message.setAction(Action.PLAYERDISCONNECTED);
-            message.setCurrentPlayerNumber(room.getPlayersCount());
+            message.setCurrent(room.getPlayersCount());
             messagingTemplate.convertAndSend(String.format("/topic/room/%s", roomId), message);
         }
     }

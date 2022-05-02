@@ -2,15 +2,13 @@ package Messages.Client;
 
 public class ClientCreateMessage extends ClientMessage {
     private int numberOfPlayers;
-    private String roomID;
 
     public ClientCreateMessage() {
     }
 
-    public ClientCreateMessage(int numberOfPlayers, String roomID) {
+    public ClientCreateMessage(int numberOfPlayers) {
         super(ClientMessageType.Create);
         this.numberOfPlayers = numberOfPlayers;
-        this.roomID = roomID;
     }
 
     public int getNumberOfPlayers() {
@@ -21,11 +19,4 @@ public class ClientCreateMessage extends ClientMessage {
         this.numberOfPlayers = numberOfPlayers;
     }
 
-    public String getRoomID() {
-        return roomID;
-    }
-
-    public void setRoomID(String roomID) {
-        this.roomID = roomID;
-    }
 }
