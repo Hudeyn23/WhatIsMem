@@ -1,14 +1,12 @@
 package com.nsu.backend;
 
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Room {
     private String id;
     private int maxPlayers;
-    private Set<Player> players = ConcurrentHashMap.newKeySet();
+    private ConcurrentLinkedQueue<Player> players = new ConcurrentLinkedQueue<>();
     private AtomicInteger playerId = new AtomicInteger(0);
 
     public Room(String id, int maxplayersCount) {
@@ -16,11 +14,7 @@ public class Room {
         this.maxPlayers = maxplayersCount;
     }
 
-    public Set<Player> getPlayers() {
-        return players;
-    }
-
-    public String getID() {
+    public String  getID() {
         return id;
     }
 
