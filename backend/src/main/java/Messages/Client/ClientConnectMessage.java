@@ -1,21 +1,21 @@
 package Messages.Client;
 
 public class ClientConnectMessage extends ClientMessage {
-    private String username;
+    private String playerName;
 
-    public ClientConnectMessage(String username) {
+    public ClientConnectMessage(String playerName) {
         super(ClientMessageType.Connect);
-        this.username = username;
+        this.playerName = playerName;
     }
 
     public ClientConnectMessage() {
     }
 
-    public String getUsername() {
-        return username;
+    public String getPlayerName() {
+        return playerName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
     }
 }

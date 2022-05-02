@@ -1,22 +1,21 @@
 package Messages.Client;
 
 public class ClientCreateMessage extends ClientMessage {
-    private int numberOfPlayers;
-
+    private int numberOfPlayer;
     public ClientCreateMessage() {
     }
 
-    public ClientCreateMessage(int numberOfPlayers) {
+    public ClientCreateMessage(int numberOfPlayers, String roomID) {
         super(ClientMessageType.Create);
-        this.numberOfPlayers = numberOfPlayers;
+        this.numberOfPlayer = numberOfPlayers;
     }
 
-    public int getNumberOfPlayers() {
-        return numberOfPlayers;
+    public int getNumberOfPlayer() {
+        return numberOfPlayer;
     }
 
-    public void setNumberOfPlayers(int numberOfPlayers) {
-        this.numberOfPlayers = numberOfPlayers;
+    public void setNumberOfPlayer(int numberOfPlayer) {
+        this.numberOfPlayer = numberOfPlayer;
     }
 
 }

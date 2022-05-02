@@ -1,7 +1,7 @@
 package Messages.Server;
 
 public enum ServerMessageType {
-    RoomCreated,
+    Create,
     GameStart,
     Wait,
     Situation,
