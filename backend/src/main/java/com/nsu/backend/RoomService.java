@@ -17,7 +17,7 @@ public class RoomService {
     public Room createRoom(int players) {
         String id;
         do {
-            id = String.format("%04d", random.nextInt(10000));
+            id = String.format("%04d", random.nextInt(1000,10000));
         } while (!roomsSet.add(id));
         Room room = new Room(id, players);
         rooms.put(id, room);
