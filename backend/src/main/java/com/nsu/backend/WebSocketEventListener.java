@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
+import org.springframework.messaging.support.GenericMessage;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
@@ -27,11 +28,8 @@ public class WebSocketEventListener {
             logger.info("User Disconnected: " + username);
             Player player = (Player) headerAccessor.getSessionAttributes().get("player");
             room.removePlayer(player);
-            ServerWaitMessage message = new ServerWaitMessage();
-            message.setAction(Action.PLAYERDISCONNECTED);
-            message.setCurrent(room.getPlayersCount());
-            message.setMax(room.getMaxPlayers());
-            messagingTemplate.convertAndSend(String.format("/topic/room/%s", roomId), (ServerMessage) message);
+            ServerWaitMessage message = new ServerWaitMessage(room.getPlayersCount(), room.getMaxPlayers(), Action.PLAYERDISCONNECTED);
+            messagingTemplate.convertAndSend(String.format("/topic/room/%s", roomId), message);
         }
     }
 }

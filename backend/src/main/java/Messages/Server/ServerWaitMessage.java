@@ -13,8 +13,8 @@ public class ServerWaitMessage extends ServerMessage {
         this.action = action;
         this.max = max;
     }
-
     public ServerWaitMessage() {
+        super(ServerMessageType.Wait);
     }
 
     public int getCurrent() {
