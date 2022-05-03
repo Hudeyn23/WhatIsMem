@@ -1,5 +1,6 @@
 package com.nsu.backend;
 
+import Messages.Server.ServerMessage;
 import Messages.Server.ServerWaitMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +30,8 @@ public class WebSocketEventListener {
             ServerWaitMessage message = new ServerWaitMessage();
             message.setAction(Action.PLAYERDISCONNECTED);
             message.setCurrent(room.getPlayersCount());
-            messagingTemplate.convertAndSend(String.format("/topic/room/%s", roomId), message);
+            message.setMax(room.getMaxPlayers());
+            messagingTemplate.convertAndSend(String.format("/topic/room/%s", roomId), (ServerMessage) message);
         }
     }
 }
